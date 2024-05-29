@@ -1,0 +1,9 @@
+# .gitignore
+node_modules
+tsconfig.tsbuildinfo
+.env
+.pnpm-debug.log*
+dist
+
+# additional ignores
+pnpm-lock.yaml

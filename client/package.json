@@ -1,0 +1,28 @@
+{
+  "name": "@tre/client",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.3.0",
+  "engines": {
+    "node": "^22.2.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "exec": "node --enable-source-maps dist/main.js",
+    "check": "run-s check:*",
+    "check:typecheck": "pnpm typecheck",
+    "check:lint": "pnpm lint",
+    "check:format": "pnpm format",
+    "fix": "run-s fix:*",
+    "fix:typecheck": "pnpm typecheck",
+    "fix:lint": "pnpm lint --write",
+    "fix:format": "pnpm format --write",
+    "typecheck": "tsc",
+    "lint": "biome check",
+    "format": "biome format"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tre/api": "workspace:*"
+  }
+}

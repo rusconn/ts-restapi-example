@@ -1,0 +1,11 @@
+model Author {
+  id        String       @id @pg.Char(26)
+  createdAt DateTime
+  updatedAt DateTime
+  name      String       @pg.VarChar(255)
+  books     AuthorBook[]
+
+  @@index([createdAt, id])
+  @@index([updatedAt, id])
+  @@index([name, id])
+}

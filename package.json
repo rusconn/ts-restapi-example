@@ -1,0 +1,33 @@
+{
+  "name": "ts-restapi-example",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.3.0",
+  "engines": {
+    "node": "^22.2.0"
+  },
+  "scripts": {
+    "up": "pnpm -r --stream run up",
+    "down": "pnpm -r --stream run down",
+    "dev": "pnpm -r --stream run dev",
+    "build": "pnpm -r --stream run build",
+    "start": "pnpm -r --stream run start",
+    "test": "pnpm -r --stream run test",
+    "check": "pnpm -r --stream run check",
+    "fix": "pnpm -r --stream run fix"
+  },
+  "dependencies": {
+    "hono": "^4.4.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.1",
+    "@dotenvx/dotenvx": "^0.44.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.3.1",
+    "vite-node": "^1.6.0",
+    "vitest": "^1.6.0"
+  }
+}

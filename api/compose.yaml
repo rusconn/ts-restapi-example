@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:15.3-alpine3.18
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT:?}:5432
+
+volumes:
+  db:

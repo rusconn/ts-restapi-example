@@ -1,0 +1,9 @@
+model AuthorBook {
+  authorId String @pg.Char(26)
+  bookId   String @pg.Char(26)
+  author   Author @relation(fields: authorId, references: id, onDelete: Cascade)
+  book     Book   @relation(fields: bookId, references: id, onDelete: Cascade)
+
+  @@id([authorId, bookId])
+  @@index(bookId)
+}
