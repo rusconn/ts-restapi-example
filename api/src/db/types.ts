@@ -7,7 +7,6 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type Author = {
   id: string;
-  createdAt: Timestamp;
   updatedAt: Timestamp;
   name: string;
 };
@@ -17,7 +16,6 @@ export type AuthorBook = {
 };
 export type Book = {
   id: string;
-  createdAt: Timestamp;
   updatedAt: Timestamp;
   title: string;
 };

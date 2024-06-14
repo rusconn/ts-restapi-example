@@ -2,10 +2,11 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
 
+import { fmap } from "../lib/functor.ts";
 import { linkEntries } from "../lib/pagination/header.ts";
 import * as p from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
-import { ulidDate } from "../lib/ulid.ts";
+import { createdAt, ulidDate } from "../lib/ulid.ts";
 import type { Env } from "../types.ts";
 
 const PAGE_MAX = s.positiveInt.parse(100);
@@ -44,15 +45,18 @@ const app = new Hono<Env>()
       const { page, pageSize, sort, direction } = c.req.valid("query");
       const { url } = c.req;
 
+      const sortKey = sort === "createdAt" ? "id" : sort;
+
       const [books, count] = await Promise.all([
         c.var.db
           .selectFrom("Book")
           .selectAll()
-          .orderBy(sort, direction)
+          .orderBy(sortKey, direction)
           .orderBy("id", direction)
           .limit(pageSize)
           .offset((page - 1) * pageSize)
-          .execute(),
+          .execute()
+          .then(fmap(createdAt)),
         c.var.db
           .selectFrom("Book")
           .select(({ fn }) => fn.countAll().as("count"))
@@ -79,7 +83,8 @@ const app = new Hono<Env>()
       .selectFrom("Book")
       .where("id", "=", id)
       .selectAll()
-      .executeTakeFirst();
+      .executeTakeFirst()
+      .then(fmap(createdAt));
 
     return book ? c.json(book, 200) : c.json(undefined, 404);
   })
@@ -106,9 +111,10 @@ const app = new Hono<Env>()
 
       const book = await c.var.db
         .insertInto("Book")
-        .values({ id, createdAt: date, updatedAt: date, title })
+        .values({ id, updatedAt: date, title })
         .returningAll()
-        .executeTakeFirstOrThrow();
+        .executeTakeFirstOrThrow()
+        .then(fmap(createdAt));
 
       return c.json(book, 201, {
         "content-location": `${c.req.url}/${book.id}`,
@@ -141,7 +147,8 @@ const app = new Hono<Env>()
         .where("id", "=", id)
         .set({ title })
         .returningAll()
-        .executeTakeFirst();
+        .executeTakeFirst()
+        .then(fmap(createdAt));
 
       return book ? c.json(book, 200) : c.json(undefined, 404);
     },
@@ -191,6 +198,8 @@ const app = new Hono<Env>()
       const { page, pageSize, sort, direction } = c.req.valid("query");
       const { url } = c.req;
 
+      const sortKey = sort === "createdAt" ? "id" : sort;
+
       const [book, authors, count] = await Promise.all([
         c.var.db //
           .selectFrom("Book")
@@ -201,12 +210,13 @@ const app = new Hono<Env>()
           .selectFrom("AuthorBook")
           .innerJoin("Author", "id", "authorId")
           .where("bookId", "=", id)
-          .select(["id", "createdAt", "updatedAt", "name"])
-          .orderBy(sort, direction)
+          .select(["id", "updatedAt", "name"])
+          .orderBy(sortKey, direction)
           .orderBy("id", direction)
           .limit(pageSize)
           .offset((page - 1) * pageSize)
-          .execute(),
+          .execute()
+          .then(fmap(createdAt)),
         c.var.db
           .selectFrom("AuthorBook")
           .where("bookId", "=", id)
