@@ -1,19 +1,19 @@
 import { Hono } from "hono";
 
 import type { Env } from "../../types.ts";
-import id_authors_get from "./[id].authors.get.ts";
-import id_delete from "./[id].delete.ts";
-import id_get from "./[id].get.ts";
-import id_patch from "./[id].patch.ts";
-import get from "./get.ts";
-import post from "./post.ts";
+import authors_id_books_get from "./authors.[id].books.get.ts";
+import books_id_delete from "./books.[id].delete.ts";
+import books_id_get from "./books.[id].get.ts";
+import books_id_patch from "./books.[id].patch.ts";
+import books_get from "./books.get.ts";
+import books_post from "./books.post.ts";
 
 const app = new Hono<Env>()
-  .route("", id_authors_get)
-  .route("", id_delete)
-  .route("", id_get)
-  .route("", id_patch)
-  .route("", get)
-  .route("", post);
+  .route("", authors_id_books_get)
+  .route("", books_id_delete)
+  .route("", books_id_get)
+  .route("", books_id_patch)
+  .route("", books_get)
+  .route("", books_post);
 
 export default app;

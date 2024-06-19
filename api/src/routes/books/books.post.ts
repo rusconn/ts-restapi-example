@@ -7,12 +7,12 @@ import { createdAt, ulidDate } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().post(
-  "/",
+  "/books",
   zValidator(
     "json",
     z
       .object({
-        name: z.string().min(1).max(100),
+        title: z.string().min(1).max(100),
       })
       .strict(),
     (result, c) => {
@@ -22,19 +22,19 @@ const app = new Hono<Env>().post(
     },
   ),
   async (c) => {
-    const { name } = c.req.valid("json");
+    const { title } = c.req.valid("json");
 
     const { id, date } = ulidDate();
 
-    const author = await c.var.db
-      .insertInto("Author")
-      .values({ id, updatedAt: date, name })
+    const book = await c.var.db
+      .insertInto("Book")
+      .values({ id, updatedAt: date, title })
       .returningAll()
       .executeTakeFirstOrThrow()
       .then(fmap(createdAt));
 
-    return c.json(author, 201, {
-      "content-location": `${c.req.url}/${author.id}`,
+    return c.json(book, 201, {
+      "content-location": `${c.req.url}/${book.id}`,
     });
   },
 );

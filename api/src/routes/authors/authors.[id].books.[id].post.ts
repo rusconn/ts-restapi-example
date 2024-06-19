@@ -2,7 +2,7 @@ import { Hono } from "hono";
 
 import type { Env } from "../../types.ts";
 
-const app = new Hono<Env>().post("/:authorId/books/:bookId", async (c) => {
+const app = new Hono<Env>().post("/authors/:authorId/books/:bookId", async (c) => {
   const { authorId, bookId } = c.req.param();
 
   const [author, book, authorBook] = await Promise.all([

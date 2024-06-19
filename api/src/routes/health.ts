@@ -4,7 +4,7 @@ import { sql } from "kysely";
 import { logger } from "../logger.ts";
 import type { Env } from "../types.ts";
 
-const app = new Hono<Env>().get("/", async (c) => {
+const app = new Hono<Env>().get("/health", async (c) => {
   type Status = "OK" | "NG";
 
   let db: Status = "OK";

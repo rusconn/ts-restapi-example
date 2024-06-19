@@ -1,23 +1,23 @@
 import { Hono } from "hono";
 
 import type { Env } from "../../types.ts";
-import id_books_id_delete from "./[id].books.[id].delete.ts";
-import id_books_id_post from "./[id].books.[id].post.ts";
-import id_books_get from "./[id].books.get.ts";
-import id_delete from "./[id].delete.ts";
-import id_get from "./[id].get.ts";
-import id_patch from "./[id].patch.ts";
-import get from "./get.ts";
-import post from "./post.ts";
+import authors_id_books_id_delete from "./authors.[id].books.[id].delete.ts";
+import authors_id_books_id_post from "./authors.[id].books.[id].post.ts";
+import authors_id_delete from "./authors.[id].delete.ts";
+import authors_id_get from "./authors.[id].get.ts";
+import authors_id_patch from "./authors.[id].patch.ts";
+import authors_get from "./authors.get.ts";
+import authors_post from "./authors.post.ts";
+import books_id_authors_get from "./books.[id].authors.get.ts";
 
 const app = new Hono<Env>()
-  .route("", id_books_id_delete)
-  .route("", id_books_id_post)
-  .route("", id_books_get)
-  .route("", id_delete)
-  .route("", id_get)
-  .route("", id_patch)
-  .route("", get)
-  .route("", post);
+  .route("", authors_id_books_id_delete)
+  .route("", authors_id_books_id_post)
+  .route("", authors_id_delete)
+  .route("", authors_id_get)
+  .route("", authors_id_patch)
+  .route("", authors_get)
+  .route("", authors_post)
+  .route("", books_id_authors_get);
 
 export default app;

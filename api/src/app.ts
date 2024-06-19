@@ -46,9 +46,9 @@ const app = new Hono<Env>()
     );
   })
   // routes
-  .route("/authors", authors)
-  .route("/books", books)
-  .route("/health", health)
+  .route("", authors)
+  .route("", books)
+  .route("", health)
   // error handlings
   .notFound((c) => c.json("Not Found", 404))
   .onError((err, c) => {

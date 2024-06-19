@@ -14,7 +14,7 @@ const PAGE_SIZE_MIN = s.positiveInt.parse(1);
 const PAGE_SIZE_MAX = s.positiveInt.parse(50);
 
 const app = new Hono<Env>().get(
-  "/:id/authors",
+  "/books/:id/authors",
   zValidator(
     "query",
     z

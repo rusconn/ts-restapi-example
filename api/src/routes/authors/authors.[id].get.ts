@@ -4,7 +4,7 @@ import { fmap } from "../../lib/functor.ts";
 import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
-const app = new Hono<Env>().get("/:id", async (c) => {
+const app = new Hono<Env>().get("/authors/:id", async (c) => {
   const { id } = c.req.param();
 
   const author = await c.var.db
