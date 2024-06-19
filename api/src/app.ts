@@ -4,7 +4,7 @@ import { Hono } from "hono";
 
 import { db } from "./db/mod.ts";
 import { logger } from "./logger.ts";
-import { authors, books, health } from "./routes/mod.ts";
+import { authors, authorsbooks, books, health } from "./routes/mod.ts";
 import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()
@@ -47,6 +47,7 @@ const app = new Hono<Env>()
   })
   // routes
   .route("", authors)
+  .route("", authorsbooks)
   .route("", books)
   .route("", health)
   // error handlings

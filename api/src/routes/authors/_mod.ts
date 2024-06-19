@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 
 import type { Env } from "../../types.ts";
-import authors_id_books_id_delete from "./authors.[id].books.[id].delete.ts";
-import authors_id_books_id_post from "./authors.[id].books.[id].post.ts";
 import authors_id_delete from "./authors.[id].delete.ts";
 import authors_id_get from "./authors.[id].get.ts";
 import authors_id_patch from "./authors.[id].patch.ts";
@@ -11,8 +9,6 @@ import authors_post from "./authors.post.ts";
 import books_id_authors_get from "./books.[id].authors.get.ts";
 
 const app = new Hono<Env>()
-  .route("", authors_id_books_id_delete)
-  .route("", authors_id_books_id_post)
   .route("", authors_id_delete)
   .route("", authors_id_get)
   .route("", authors_id_patch)
