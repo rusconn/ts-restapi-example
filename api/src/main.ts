@@ -3,6 +3,7 @@ import process from "node:process";
 import { serve } from "@hono/node-server";
 
 import app from "./app.ts";
+import { cache } from "./cache/mod.ts";
 import { db } from "./db/mod.ts";
 import { logger } from "./logger.ts";
 
@@ -13,6 +14,7 @@ const server = serve(app, (info) => {
 const shutdown = async () => {
   server.close();
   await db.destroy();
+  await cache.disconnect();
   logger.flush();
 };
 

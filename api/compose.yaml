@@ -9,5 +9,13 @@ services:
     ports:
       - ${DB_PORT:?}:5432
 
+  cache:
+    image: redis:7.2.5-alpine3.20
+    volumes:
+      - ./redis/conf:/etc/redis
+    ports:
+      - ${CACHE_PORT:?}:6379
+    command: /etc/redis/redis.conf
+
 volumes:
   db:

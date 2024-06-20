@@ -7,15 +7,29 @@ import type { Env } from "../types.ts";
 const app = new Hono<Env>().get("/health", async (c) => {
   type Status = "OK" | "NG";
 
-  let db: Status = "OK";
-  try {
-    await sql`select 1`.execute(c.var.db);
-  } catch (e) {
-    logger.error(e, "db-health-error");
-    db = "NG";
-  }
+  const checkDb = async (): Promise<Status> => {
+    try {
+      await sql`select 1`.execute(c.var.db);
+      return "OK";
+    } catch (e) {
+      logger.error(e, "db-health-error");
+      return "NG";
+    }
+  };
 
-  const statuses = { db };
+  const checkCache = async (): Promise<Status> => {
+    try {
+      await c.var.cache.get("hoge");
+      return "OK";
+    } catch (e) {
+      logger.error(e, "cache-health-error");
+      return "NG";
+    }
+  };
+
+  const [db, cache] = await Promise.all([checkDb(), checkCache()]);
+
+  const statuses = { db, cache };
   const code = Object.values(statuses).includes("NG") ? 503 : 200;
 
   return c.json(statuses, code);
