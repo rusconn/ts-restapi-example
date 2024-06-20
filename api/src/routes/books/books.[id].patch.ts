@@ -1,6 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { sha1 } from "hono/utils/crypto";
 import { z } from "zod";
 
 import { strongETag } from "../../lib/etag.ts";
@@ -28,7 +27,35 @@ const app = new Hono<Env>().patch(
   async (c) => {
     const { id } = c.req.param();
     const { title } = c.req.valid("json");
+    const ifMatch = c.req.header("If-Match");
     const { requestId } = c.var;
+
+    if (ifMatch) {
+      const etag = await c.var.cache.get(id);
+
+      if (etag) {
+        if (ifMatch !== etag) {
+          return c.json("Precondition Failed", 412);
+        }
+      } else {
+        const book = await c.var.db
+          .selectFrom("Book")
+          .where("id", "=", id)
+          .select(["id", "updatedAt", "title"])
+          .executeTakeFirst()
+          .then(fmap(createdAt));
+
+        if (!book) {
+          return c.json(undefined, 404);
+        }
+
+        const etag = await strongETag(book);
+
+        if (ifMatch !== etag) {
+          return c.json("Precondition Failed", 412);
+        }
+      }
+    }
 
     const book = await c.var.db
       .updateTable("Book")
