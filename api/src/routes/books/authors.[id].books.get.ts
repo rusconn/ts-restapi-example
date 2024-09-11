@@ -31,7 +31,7 @@ const app = new Hono<Env>().get(
       })
       .strict()
       .transform(({ sort, direction: dir, ...rest }) => {
-        const direction = dir ?? sort === "title" ? "asc" : "desc";
+        const direction = dir ?? (sort === "title" ? "asc" : "desc");
         return { sort, direction, ...rest } as const;
       }),
     (result, c) => {
