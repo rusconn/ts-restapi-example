@@ -11,7 +11,7 @@ const app = new Hono<Env>().get("/authors/:id", etag(), async (c) => {
   const author = await c.var.db
     .selectFrom("Author")
     .where("id", "=", id)
-    .selectAll()
+    .select(["id", "updatedAt", "name"])
     .executeTakeFirst()
     .then(fmap(createdAt));
 

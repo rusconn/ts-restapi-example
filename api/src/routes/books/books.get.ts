@@ -51,7 +51,7 @@ const app = new Hono<Env>().get(
     const [books, count] = await Promise.all([
       c.var.db
         .selectFrom("Book")
-        .selectAll()
+        .select(["id", "updatedAt", "title"])
         .orderBy(sortKey, direction)
         .orderBy("id", direction)
         .limit(pageSize)

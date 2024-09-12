@@ -34,7 +34,7 @@ const app = new Hono<Env>().patch(
       const author = await c.var.db
         .selectFrom("Author")
         .where("id", "=", id)
-        .selectAll()
+        .select(["id", "updatedAt", "name"])
         .executeTakeFirst()
         .then(fmap(createdAt));
 
@@ -50,7 +50,7 @@ const app = new Hono<Env>().patch(
       .updateTable("Author")
       .where("id", "=", id)
       .set({ name })
-      .returningAll()
+      .returning(["id", "updatedAt", "name"])
       .executeTakeFirst()
       .then(fmap(createdAt));
 

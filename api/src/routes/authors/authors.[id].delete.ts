@@ -13,7 +13,7 @@ const app = new Hono<Env>().delete("/authors/:id", async (c) => {
     const author = await c.var.db
       .selectFrom("Author")
       .where("id", "=", id)
-      .selectAll()
+      .select(["id", "updatedAt", "name"])
       .executeTakeFirst()
       .then(fmap(createdAt));
 

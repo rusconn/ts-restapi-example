@@ -29,7 +29,7 @@ const app = new Hono<Env>().post(
     const author = await c.var.db
       .insertInto("Author")
       .values({ id, updatedAt: date, name })
-      .returningAll()
+      .returning(["id", "updatedAt", "name"])
       .executeTakeFirstOrThrow()
       .then(fmap(createdAt));
 
