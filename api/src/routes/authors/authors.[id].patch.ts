@@ -1,13 +1,16 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { etag } from "hono/etag";
 import { z } from "zod";
 
+import { strongETag } from "../../lib/etag.ts";
 import { fmap } from "../../lib/functor.ts";
 import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().patch(
   "/authors/:id",
+  etag(),
   zValidator(
     "json",
     z
@@ -25,6 +28,23 @@ const app = new Hono<Env>().patch(
   async (c) => {
     const { id } = c.req.param();
     const { name } = c.req.valid("json");
+    const ifMatch = c.req.header("if-match");
+
+    if (ifMatch) {
+      const author = await c.var.db
+        .selectFrom("Author")
+        .where("id", "=", id)
+        .selectAll()
+        .executeTakeFirst()
+        .then(fmap(createdAt));
+
+      if (!author) {
+        return c.json(undefined, 404);
+      }
+      if (ifMatch !== (await strongETag(author))) {
+        return c.json("Precondition Failed", 412);
+      }
+    }
 
     const author = await c.var.db
       .updateTable("Author")
