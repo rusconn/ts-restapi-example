@@ -1,5 +1,6 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { etag } from "hono/etag";
 import { z } from "zod";
 
 import { fmap } from "../../lib/functor.ts";
@@ -15,6 +16,7 @@ const PAGE_SIZE_MAX = s.positiveInt.parse(50);
 
 const app = new Hono<Env>().get(
   "/books/:id/authors",
+  etag(),
   zValidator(
     "query",
     z
@@ -74,6 +76,7 @@ const app = new Hono<Env>().get(
 
     return book
       ? c.json(authors, 200, {
+          "cache-control": "public, max-age=0, must-revalidate",
           link: linkEntries({
             page,
             pageSize,
