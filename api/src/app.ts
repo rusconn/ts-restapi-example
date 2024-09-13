@@ -1,5 +1,3 @@
-import { randomUUID } from "node:crypto";
-
 import { Hono } from "hono";
 
 import { AuthorAPI, AuthorBookAPI, BookAPI } from "./datasources/_mod.ts";
@@ -12,7 +10,7 @@ const app = new Hono<Env>()
   // contexts
   .use(async (c, next) => {
     c.set("start", Date.now());
-    c.set("requestId", randomUUID());
+    c.set("requestId", crypto.randomUUID());
     c.set("api", {
       author: new AuthorAPI(db),
       authorBook: new AuthorBookAPI(db),
