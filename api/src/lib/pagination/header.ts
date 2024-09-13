@@ -32,10 +32,13 @@ export const linkEntries = ({ page, pageSize, pageMax, all, url }: LinkEntriesPa
   }
   relPages.set("last", last);
 
-  return [...relPages].map(([rel, page]) => {
-    url.searchParams.set("page", page.toString());
-    return `<${url}>; rel=${rel}` as const;
-  });
+  return relPages
+    .entries()
+    .map(([rel, page]) => {
+      url.searchParams.set("page", page.toString());
+      return `<${url}>; rel=${rel}` as const;
+    })
+    .toArray();
 };
 
 if (import.meta.vitest) {
