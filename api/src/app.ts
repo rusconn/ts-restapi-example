@@ -15,10 +15,10 @@ const app = new Hono<Env>()
   // logs
   .use(logger)
   // routes
-  .route("", authors)
-  .route("", authorsbooks)
-  .route("", books)
-  .route("", health)
+  .route("/", authors)
+  .route("/", authorsbooks)
+  .route("/", books)
+  .route("/", health)
   // error handlings
   .notFound(notFound)
   .onError(onError);

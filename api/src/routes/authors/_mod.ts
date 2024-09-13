@@ -9,11 +9,11 @@ import authors_post from "./authors.post.ts";
 import books_id_authors_get from "./books.[id].authors.get.ts";
 
 const app = new Hono<Env>()
-  .route("", authors_id_delete)
-  .route("", authors_id_get)
-  .route("", authors_id_patch)
-  .route("", authors_get)
-  .route("", authors_post)
-  .route("", books_id_authors_get);
+  .route("/", authors_id_delete)
+  .route("/", authors_id_get)
+  .route("/", authors_id_patch)
+  .route("/", authors_get)
+  .route("/", authors_post)
+  .route("/", books_id_authors_get);
 
 export default app;
