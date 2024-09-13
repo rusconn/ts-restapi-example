@@ -1,6 +1,4 @@
-import authors from "./authors/_mod.ts";
-import authorsbooks from "./authorsbooks/_mod.ts";
-import books from "./books/_mod.ts";
-import health from "./health.ts";
-
-export { authors, authorsbooks, books, health };
+export { default as authors } from "./authors/_mod.ts";
+export { default as authorsbooks } from "./authorsbooks/_mod.ts";
+export { default as books } from "./books/_mod.ts";
+export { default as health } from "./health.ts";
