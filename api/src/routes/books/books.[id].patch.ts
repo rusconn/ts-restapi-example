@@ -1,11 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { etag } from "hono/etag";
 import { z } from "zod";
 
-import { etag } from "hono/etag";
 import { strongETag } from "../../lib/etag.ts";
-import { fmap } from "../../lib/functor.ts";
-import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().patch(
@@ -31,12 +29,7 @@ const app = new Hono<Env>().patch(
     const ifMatch = c.req.header("if-match");
 
     if (ifMatch) {
-      const book = await c.var.db
-        .selectFrom("Book")
-        .where("id", "=", id)
-        .select(["id", "updatedAt", "title"])
-        .executeTakeFirst()
-        .then(fmap(createdAt));
+      const book = await c.var.api.book.get(id);
 
       if (!book) {
         return c.json(undefined, 404);
@@ -46,13 +39,9 @@ const app = new Hono<Env>().patch(
       }
     }
 
-    const book = await c.var.db
-      .updateTable("Book")
-      .where("id", "=", id)
-      .set({ title })
-      .returning(["id", "updatedAt", "title"])
-      .executeTakeFirst()
-      .then(fmap(createdAt));
+    const book = await c.var.api.book.update(id, {
+      ...(title && { title }),
+    });
 
     return book ? c.json(book, 200) : c.json(undefined, 404);
   },

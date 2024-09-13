@@ -4,8 +4,6 @@ import { etag } from "hono/etag";
 import { z } from "zod";
 
 import { strongETag } from "../../lib/etag.ts";
-import { fmap } from "../../lib/functor.ts";
-import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().patch(
@@ -31,12 +29,7 @@ const app = new Hono<Env>().patch(
     const ifMatch = c.req.header("if-match");
 
     if (ifMatch) {
-      const author = await c.var.db
-        .selectFrom("Author")
-        .where("id", "=", id)
-        .select(["id", "updatedAt", "name"])
-        .executeTakeFirst()
-        .then(fmap(createdAt));
+      const author = await c.var.api.author.get(id);
 
       if (!author) {
         return c.json(undefined, 404);
@@ -46,13 +39,9 @@ const app = new Hono<Env>().patch(
       }
     }
 
-    const author = await c.var.db
-      .updateTable("Author")
-      .where("id", "=", id)
-      .set({ name })
-      .returning(["id", "updatedAt", "name"])
-      .executeTakeFirst()
-      .then(fmap(createdAt));
+    const author = await c.var.api.author.update(id, {
+      ...(name && { name }),
+    });
 
     return author ? c.json(author, 200) : c.json(undefined, 404);
   },

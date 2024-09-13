@@ -6,22 +6,9 @@ const app = new Hono<Env>().post("/authors/:authorId/books/:bookId", async (c) =
   const { authorId, bookId } = c.req.param();
 
   const [author, book, authorBook] = await Promise.all([
-    c.var.db //
-      .selectFrom("Author")
-      .where("id", "=", authorId)
-      .select("id")
-      .executeTakeFirst(),
-    c.var.db //
-      .selectFrom("Book")
-      .where("id", "=", bookId)
-      .select("id")
-      .executeTakeFirst(),
-    c.var.db
-      .selectFrom("AuthorBook")
-      .where("authorId", "=", authorId)
-      .where("bookId", "=", bookId)
-      .selectAll()
-      .executeTakeFirst(),
+    c.var.api.author.isExists(authorId),
+    c.var.api.book.isExists(bookId),
+    c.var.api.authorBook.isExists(authorId, bookId),
   ]);
 
   if (!author || !book) {
@@ -31,11 +18,7 @@ const app = new Hono<Env>().post("/authors/:authorId/books/:bookId", async (c) =
     return c.json("Already Exists", 409); // 409 でいいのか？
   }
 
-  await c.var.db
-    .insertInto("AuthorBook")
-    .values({ authorId, bookId })
-    .returningAll()
-    .executeTakeFirstOrThrow();
+  await c.var.api.authorBook.create(authorId, bookId);
 
   return c.json(undefined, 201);
 });

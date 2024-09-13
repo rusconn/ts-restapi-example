@@ -3,11 +3,9 @@ import { Hono } from "hono";
 import { etag } from "hono/etag";
 import { z } from "zod";
 
-import { fmap } from "../../lib/functor.ts";
 import { linkEntries } from "../../lib/pagination/header.ts";
 import * as p from "../../lib/pagination/schema.ts";
 import * as s from "../../lib/schema.ts";
-import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const PAGE_MAX = s.positiveInt.parse(100);
@@ -50,28 +48,9 @@ const app = new Hono<Env>().get(
     const sortKey = sort === "createdAt" ? "id" : sort;
 
     const [book, authors, count] = await Promise.all([
-      c.var.db //
-        .selectFrom("Book")
-        .where("id", "=", id)
-        .select("id")
-        .executeTakeFirst(),
-      c.var.db
-        .selectFrom("AuthorBook")
-        .innerJoin("Author", "id", "authorId")
-        .where("bookId", "=", id)
-        .select(["id", "updatedAt", "name"])
-        .orderBy(sortKey, direction)
-        .orderBy("id", direction)
-        .limit(pageSize)
-        .offset((page - 1) * pageSize)
-        .execute()
-        .then(fmap(createdAt)),
-      c.var.db
-        .selectFrom("AuthorBook")
-        .where("bookId", "=", id)
-        .select(({ fn }) => fn.countAll().as("count"))
-        .executeTakeFirstOrThrow()
-        .then(({ count }) => count),
+      c.var.api.book.isExists(id),
+      c.var.api.author.getsByBookId(id, { sortKey, direction, page, pageSize }),
+      c.var.api.authorBook.countByBookId(id),
     ]);
 
     return book

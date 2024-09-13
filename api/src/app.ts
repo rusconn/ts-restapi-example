@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { Hono } from "hono";
 
+import { AuthorAPI, AuthorBookAPI, BookAPI } from "./datasources/_mod.ts";
 import { db } from "./db/mod.ts";
 import { logger } from "./logger.ts";
 import { authors, authorsbooks, books, health } from "./routes/mod.ts";
@@ -12,7 +13,12 @@ const app = new Hono<Env>()
   .use(async (c, next) => {
     c.set("start", Date.now());
     c.set("requestId", randomUUID());
-    c.set("db", db);
+    c.set("api", {
+      author: new AuthorAPI(db),
+      authorBook: new AuthorBookAPI(db),
+      book: new BookAPI(db),
+    });
+    c.set("_db", db);
     await next();
   })
   // logs

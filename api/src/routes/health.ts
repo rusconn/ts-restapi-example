@@ -9,7 +9,7 @@ const app = new Hono<Env>().get("/health", async (c) => {
 
   let db: Status = "OK";
   try {
-    await sql`select 1`.execute(c.var.db);
+    await sql`select 1`.execute(c.var._db);
   } catch (e) {
     logger.error(e, "db-health-error");
     db = "NG";

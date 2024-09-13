@@ -1,13 +1,11 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { etag } from "hono/etag";
 import { z } from "zod";
 
-import { etag } from "hono/etag";
-import { fmap } from "../../lib/functor.ts";
 import { linkEntries } from "../../lib/pagination/header.ts";
 import * as p from "../../lib/pagination/schema.ts";
 import * as s from "../../lib/schema.ts";
-import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const PAGE_MAX = s.positiveInt.parse(100);
@@ -49,20 +47,8 @@ const app = new Hono<Env>().get(
     const sortKey = sort === "createdAt" ? "id" : sort;
 
     const [books, count] = await Promise.all([
-      c.var.db
-        .selectFrom("Book")
-        .select(["id", "updatedAt", "title"])
-        .orderBy(sortKey, direction)
-        .orderBy("id", direction)
-        .limit(pageSize)
-        .offset((page - 1) * pageSize)
-        .execute()
-        .then(fmap(createdAt)),
-      c.var.db
-        .selectFrom("Book")
-        .select(({ fn }) => fn.countAll().as("count"))
-        .executeTakeFirstOrThrow()
-        .then(({ count }) => count),
+      c.var.api.book.gets({ sortKey, direction, page, pageSize }),
+      c.var.api.book.count(),
     ]);
 
     return c.json(books, 200, {

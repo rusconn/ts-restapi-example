@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 
 import { strongETag } from "../../lib/etag.ts";
-import { fmap } from "../../lib/functor.ts";
-import { createdAt } from "../../lib/ulid.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().delete("/authors/:id", async (c) => {
@@ -10,12 +8,7 @@ const app = new Hono<Env>().delete("/authors/:id", async (c) => {
   const ifMatch = c.req.header("if-match");
 
   if (ifMatch) {
-    const author = await c.var.db
-      .selectFrom("Author")
-      .where("id", "=", id)
-      .select(["id", "updatedAt", "name"])
-      .executeTakeFirst()
-      .then(fmap(createdAt));
+    const author = await c.var.api.author.get(id);
 
     if (!author) {
       return c.json(undefined, 404);
@@ -25,11 +18,7 @@ const app = new Hono<Env>().delete("/authors/:id", async (c) => {
     }
   }
 
-  const author = await c.var.db
-    .deleteFrom("Author")
-    .where("id", "=", id)
-    .returning("id")
-    .executeTakeFirst();
+  const author = await c.var.api.author.delete(id);
 
   return author ? c.json(undefined, 204) : c.json(undefined, 404);
 });
