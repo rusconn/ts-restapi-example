@@ -9,7 +9,8 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": "error",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useImportExtensions": "error"
       },
       "style": {
         "noNonNullAssertion": "off",
