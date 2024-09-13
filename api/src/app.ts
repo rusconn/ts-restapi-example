@@ -9,7 +9,7 @@ import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()
   // contexts
-  .use(requestId({ headerName: "" }))
+  .use(requestId())
   .use(async (c, next) => {
     c.set("start", Date.now());
     c.set("api", {
