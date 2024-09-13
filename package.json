@@ -18,7 +18,7 @@
     "fix": "pnpm -r --stream run fix"
   },
   "dependencies": {
-    "hono": "^4.4.6"
+    "hono": "^4.6.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
