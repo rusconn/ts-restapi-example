@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { requestId } from "hono/request-id";
 
 import { AuthorAPI, AuthorBookAPI, BookAPI } from "./datasources/_mod.ts";
 import { db } from "./db/mod.ts";
@@ -8,9 +9,9 @@ import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()
   // contexts
+  .use(requestId({ headerName: "" }))
   .use(async (c, next) => {
     c.set("start", Date.now());
-    c.set("requestId", crypto.randomUUID());
     c.set("api", {
       author: new AuthorAPI(db),
       authorBook: new AuthorBookAPI(db),
