@@ -1,9 +1,16 @@
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 
-import { notFound, onError } from "./errorhandlers/_mod.ts";
-import { api, logger, rawDb, start } from "./middlewares/_mod.ts";
-import { authors, authorsbooks, books, health } from "./routes/mod.ts";
+import { notFound } from "./errorhandlers/notFound.ts";
+import { onError } from "./errorhandlers/onError.ts";
+import { api } from "./middlewares/api.ts";
+import { logger } from "./middlewares/logger.ts";
+import { rawDb } from "./middlewares/rawDb.ts";
+import { start } from "./middlewares/start.ts";
+import authors from "./routes/authors/_mod.ts";
+import authorsbooks from "./routes/authorsbooks/_mod.ts";
+import books from "./routes/books/_mod.ts";
+import health from "./routes/health.ts";
 import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()

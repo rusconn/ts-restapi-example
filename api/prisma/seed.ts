@@ -1,4 +1,4 @@
-import { db } from "../src/db/mod.ts";
+import { db } from "../src/db/client.ts";
 import * as author from "./seed/author.ts";
 import * as authorBook from "./seed/authorBook.ts";
 import * as book from "./seed/book.ts";

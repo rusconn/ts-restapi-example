@@ -1,4 +1,6 @@
-import type { AuthorAPI, AuthorBookAPI, BookAPI } from "./datasources/_mod.ts";
+import type { AuthorAPI } from "./datasources/author.ts";
+import type { AuthorBookAPI } from "./datasources/authorBook.ts";
+import type { BookAPI } from "./datasources/book.ts";
 import type { db } from "./db/client.ts";
 
 export type Env = {

@@ -1,4 +1,5 @@
-import type { AuthorInsert, AuthorSelect, AuthorUpdate, BookSelect, db } from "../db/mod.ts";
+import type { db } from "../db/client.ts";
+import type { AuthorInsert, AuthorSelect, AuthorUpdate, BookSelect } from "../db/models.ts";
 import { fmap } from "../lib/functor.ts";
 import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";

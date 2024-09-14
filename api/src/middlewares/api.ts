@@ -1,6 +1,8 @@
 import { createMiddleware } from "hono/factory";
 
-import { AuthorAPI, AuthorBookAPI, BookAPI } from "../datasources/_mod.ts";
+import { AuthorAPI } from "../datasources/author.ts";
+import { AuthorBookAPI } from "../datasources/authorBook.ts";
+import { BookAPI } from "../datasources/book.ts";
 import type { Env } from "../types.ts";
 
 export const api = createMiddleware<Env>(async (c, next) => {

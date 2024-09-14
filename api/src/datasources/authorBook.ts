@@ -1,4 +1,5 @@
-import type { AuthorSelect, BookSelect, db } from "../db/mod.ts";
+import type { db } from "../db/client.ts";
+import type { AuthorSelect, BookSelect } from "../db/models.ts";
 import * as s from "../lib/schema.ts";
 
 /** 列の順序を保証するために使う */

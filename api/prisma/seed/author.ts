@@ -1,6 +1,6 @@
 import type { Transaction } from "kysely";
 
-import type { DB } from "../../src/db/mod.ts";
+import type { DB } from "../../src/db/types.ts";
 
 export const seed = async (tsx: Transaction<DB>) => {
   const authors = [alice, bob, charlie];

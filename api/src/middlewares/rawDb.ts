@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 
-import { db } from "../db/mod.ts";
+import { db } from "../db/client.ts";
 import type { Env } from "../types.ts";
 
 export const rawDb = createMiddleware<Env>(async (c, next) => {

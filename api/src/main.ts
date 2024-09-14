@@ -3,7 +3,7 @@ import process from "node:process";
 import { serve } from "@hono/node-server";
 
 import app from "./app.ts";
-import { db } from "./db/mod.ts";
+import { db } from "./db/client.ts";
 import { logger } from "./logger.ts";
 
 const server = serve(app, (info) => {
