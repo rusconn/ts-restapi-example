@@ -14,8 +14,7 @@
     "build": "pnpm -r --stream run build",
     "start": "pnpm -r --stream run start",
     "test": "pnpm -r --stream run test",
-    "check": "pnpm -r --stream run check",
-    "fix": "pnpm -r --stream run fix"
+    "check": "pnpm -r --stream run check"
   },
   "dependencies": {
     "hono": "^4.6.1"
