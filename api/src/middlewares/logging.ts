@@ -2,7 +2,7 @@ import { createMiddleware } from "hono/factory";
 
 import type { Env } from "../types.ts";
 
-export const log = createMiddleware<Env>(async (c, next) => {
+export const logging = createMiddleware<Env>(async (c, next) => {
   const { method, path } = c.req;
   const { logger, start } = c.var;
 
