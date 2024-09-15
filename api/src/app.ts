@@ -16,9 +16,9 @@ import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()
   // contexts
+  .use(start)
   .use(requestId())
   .use(logger)
-  .use(start)
   .use(rawDb)
   .use(api)
   // loggings
