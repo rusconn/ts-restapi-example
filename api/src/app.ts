@@ -4,6 +4,7 @@ import { requestId } from "hono/request-id";
 import { notFound } from "./errorhandlers/notFound.ts";
 import { onError } from "./errorhandlers/onError.ts";
 import { api } from "./middlewares/api.ts";
+import { log } from "./middlewares/log.ts";
 import { logger } from "./middlewares/logger.ts";
 import { rawDb } from "./middlewares/rawDb.ts";
 import { start } from "./middlewares/start.ts";
@@ -16,11 +17,12 @@ import type { Env } from "./types.ts";
 const app = new Hono<Env>()
   // contexts
   .use(requestId())
+  .use(logger)
   .use(start)
   .use(rawDb)
   .use(api)
   // logs
-  .use(logger)
+  .use(log)
   // routes
   .route("/", authors)
   .route("/", authorsbooks)
