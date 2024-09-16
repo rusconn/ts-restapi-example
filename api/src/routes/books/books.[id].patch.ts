@@ -28,22 +28,29 @@ const app = new Hono<Env>().patch(
     const { title } = c.req.valid("json");
     const ifMatch = c.req.header("if-match");
 
-    if (ifMatch) {
-      const book = await c.var.api.book.get(id);
-
-      if (!book) {
-        return c.json(undefined, 404);
-      }
-      if (ifMatch !== (await strongETag(book))) {
-        return c.json("Precondition Failed", 412);
-      }
-    }
-
-    const book = await c.var.api.book.update(id, {
+    const data = {
       ...(title && { title }),
-    });
+    };
 
-    return book ? c.json(book, 200) : c.json(undefined, 404);
+    if (ifMatch) {
+      const { type, updated } = await c.var.api.book.updateWithCheck(
+        id,
+        data,
+        async (got) => (await strongETag(got)) === ifMatch,
+      );
+
+      const statuses = {
+        notFound: 404,
+        checkError: 412,
+        success: 200,
+      } as const;
+
+      return c.json(updated, statuses[type]);
+    } else {
+      const updated = await c.var.api.book.update(id, data);
+
+      return c.json(updated, updated ? 200 : 404);
+    }
   },
 );
 

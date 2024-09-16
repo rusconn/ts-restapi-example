@@ -1,5 +1,7 @@
-import type { db } from "../db/client.ts";
+import type { Kysely, Transaction } from "kysely";
+
 import type { AuthorSelect, BookInsert, BookSelect, BookUpdate } from "../db/models.ts";
+import type { DB } from "../db/types.ts";
 import { fmap } from "../lib/functor.ts";
 import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
@@ -9,17 +11,18 @@ import { createdAt, ulidDate } from "../lib/ulid.ts";
 const allColumns = ["id", "updatedAt", "title"] as const;
 
 export class BookAPI {
-  #db: typeof db;
+  #db: Kysely<DB>;
 
-  constructor(client: typeof db) {
-    this.#db = client;
+  constructor(db: Kysely<DB>) {
+    this.#db = db;
   }
 
-  get(id: BookSelect["id"]) {
-    return this.#db
+  get(id: BookSelect["id"], trx?: Transaction<DB>) {
+    return (trx ?? this.#db)
       .selectFrom("Book")
       .where("id", "=", id)
       .select(allColumns)
+      .$if(!!trx, (qb) => qb.forUpdate())
       .executeTakeFirst()
       .then(fmap(createdAt));
   }
@@ -101,8 +104,8 @@ export class BookAPI {
       .then(fmap(createdAt));
   }
 
-  update(id: BookSelect["id"], data: BookUpdate) {
-    return this.#db
+  update(id: BookSelect["id"], data: BookUpdate, trx?: Transaction<DB>) {
+    return (trx ?? this.#db)
       .updateTable("Book")
       .where("id", "=", id)
       .set(data)
@@ -111,11 +114,56 @@ export class BookAPI {
       .then(fmap(createdAt));
   }
 
-  delete(id: BookSelect["id"]) {
-    return this.#db //
+  updateWithCheck(
+    id: BookSelect["id"],
+    data: BookUpdate,
+    check: (got: NonNullable<Awaited<ReturnType<typeof this.get>>>) => Promise<boolean> | boolean,
+  ) {
+    return this.#db.transaction().execute(async (trx) => {
+      const got = await this.get(id, trx);
+      if (!got) {
+        return { type: "notFound" } as const;
+      }
+      if (!(await check(got))) {
+        return { type: "checkError" } as const;
+      }
+
+      const updated = await this.update(id, data, trx);
+      if (!updated) {
+        throw new Error("something went wrong");
+      }
+
+      return { type: "success", updated } as const;
+    });
+  }
+
+  delete(id: BookSelect["id"], trx?: Transaction<DB>) {
+    return (trx ?? this.#db)
       .deleteFrom("Book")
       .where("id", "=", id)
       .returning("id")
       .executeTakeFirst();
+  }
+
+  deleteWithCheck(
+    id: BookSelect["id"],
+    check: (got: NonNullable<Awaited<ReturnType<typeof this.get>>>) => Promise<boolean> | boolean,
+  ) {
+    return this.#db.transaction().execute(async (trx) => {
+      const got = await this.get(id, trx);
+      if (!got) {
+        return { type: "notFound" } as const;
+      }
+      if (!(await check(got))) {
+        return { type: "checkError" } as const;
+      }
+
+      const deleted = await this.delete(id, trx);
+      if (!deleted) {
+        throw new Error("something went wrong");
+      }
+
+      return { type: "success" } as const;
+    });
   }
 }

@@ -8,19 +8,23 @@ const app = new Hono<Env>().delete("/books/:id", async (c) => {
   const ifMatch = c.req.header("if-match");
 
   if (ifMatch) {
-    const book = await c.var.api.book.get(id);
+    const { type } = await c.var.api.book.deleteWithCheck(
+      id,
+      async (got) => (await strongETag(got)) === ifMatch,
+    );
 
-    if (!book) {
-      return c.json(undefined, 404);
-    }
-    if (ifMatch !== (await strongETag(book))) {
-      return c.json("Precondition Failed", 412);
-    }
+    const statuses = {
+      notFound: 404,
+      checkError: 412,
+      success: 204,
+    } as const;
+
+    return c.json(undefined, statuses[type]);
+  } else {
+    const deleted = await c.var.api.book.delete(id);
+
+    return c.json(undefined, deleted ? 204 : 404);
   }
-
-  const book = await c.var.api.book.delete(id);
-
-  return book ? c.json(undefined, 204) : c.json(undefined, 404);
 });
 
 export default app;
