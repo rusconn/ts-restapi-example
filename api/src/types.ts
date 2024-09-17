@@ -1,7 +1,7 @@
 import type { AuthorAPI } from "./datasources/author.ts";
 import type { AuthorBookAPI } from "./datasources/authorBook.ts";
 import type { BookAPI } from "./datasources/book.ts";
-import type { db } from "./db/client.ts";
+import type { HealthAPI } from "./datasources/health.ts";
 import type { logger } from "./logger.ts";
 
 export type Env = {
@@ -12,7 +12,7 @@ export type Env = {
       author: AuthorAPI;
       authorBook: AuthorBookAPI;
       book: BookAPI;
+      health: HealthAPI;
     };
-    _db: typeof db;
   };
 };
