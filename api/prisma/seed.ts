@@ -1,6 +1,6 @@
 import { db } from "../src/db/client.ts";
+import * as authorBook from "./seed/author-book.ts";
 import * as author from "./seed/author.ts";
-import * as authorBook from "./seed/authorBook.ts";
 import * as book from "./seed/book.ts";
 
 const seed = async () => {
