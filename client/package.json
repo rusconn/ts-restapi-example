@@ -10,9 +10,9 @@
     "build": "vite build",
     "exec": "node --enable-source-maps dist/main.js",
     "check": "run-s check:*",
-    "check:typecheck": "pnpm typecheck",
-    "check:lint": "pnpm lint",
-    "check:format": "pnpm format",
+    "check:typecheck": "node --run typecheck",
+    "check:lint": "node --run lint",
+    "check:format": "node --run format",
     "typecheck": "tsc",
     "lint": "biome check",
     "format": "biome format"
