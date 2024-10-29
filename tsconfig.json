@@ -9,7 +9,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "types": ["vite/client", "vitest/importMeta", "vitest/globals"],
+    "types": ["vitest/importMeta", "vitest/globals"],
     "exactOptionalPropertyTypes": true,
     "allowImportingTsExtensions": true,
     "noUncheckedIndexedAccess": true,

@@ -12,7 +12,7 @@
   "scripts": {
     "up": "docker compose -p ts-restspi-example-api up -d",
     "down": "docker compose -p ts-restspi-example-api down",
-    "dev": "dotenvx run -- pnpm ts --watch src/main.ts",
+    "dev": "dotenvx run -- pnpm ts watch src/main.ts",
     "build": "dotenvx run -- vite build",
     "start": "dotenvx run -f .env -f .env.production --overload -- node --enable-source-maps dist/main.js",
     "test": "run-s test:ut test:it",
@@ -29,7 +29,7 @@
     "studio": "prisma studio",
     "migrate:dev": "prisma migrate dev",
     "migrate:reset": "prisma migrate reset --force",
-    "ts": "vite-node",
+    "ts": "tsx",
     "typecheck": "tsc",
     "lint": "biome check",
     "format:biome": "biome format",
@@ -48,6 +48,7 @@
     "@types/pg": "^8.11.6",
     "pino-pretty": "^11.2.1",
     "prisma": "^5.15.0",
-    "prisma-kysely": "^1.8.0"
+    "prisma-kysely": "^1.8.0",
+    "tsx": "^4.19.2"
   }
 }
