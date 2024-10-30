@@ -17,7 +17,7 @@
     "check": "pnpm -r --stream run check"
   },
   "dependencies": {
-    "hono": "^4.6.2"
+    "hono": "^4.6.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
