@@ -101,11 +101,11 @@ export class BookAPI {
       .then(fmap(createdAt));
   }
 
-  update(id: BookSelect["id"], data: BookUpdate) {
+  update(id: BookSelect["id"], data: Omit<BookUpdate, "updatedAt">) {
     return this.#db
       .updateTable("Book")
       .where("id", "=", id)
-      .set(data)
+      .set({ ...data, updatedAt: new Date() })
       .returning(allColumns)
       .executeTakeFirst()
       .then(fmap(createdAt));

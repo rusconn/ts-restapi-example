@@ -101,11 +101,11 @@ export class AuthorAPI {
       .then(fmap(createdAt));
   }
 
-  update(id: AuthorSelect["id"], data: AuthorUpdate) {
+  update(id: AuthorSelect["id"], data: Omit<AuthorUpdate, "updatedAt">) {
     return this.#db
       .updateTable("Author")
       .where("id", "=", id)
-      .set(data)
+      .set({ ...data, updatedAt: new Date() })
       .returning(allColumns)
       .executeTakeFirst()
       .then(fmap(createdAt));
