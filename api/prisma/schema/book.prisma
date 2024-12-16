@@ -1,5 +1,5 @@
 model Book {
-  id        String       @id @pg.Char(26)
+  id        String       @id @pg.Uuid
   updatedAt DateTime
   title     String       @pg.VarChar(255)
   authors   AuthorBook[]

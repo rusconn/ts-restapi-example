@@ -15,6 +15,11 @@ const PAGE_SIZE_MAX = s.positiveInt.parse(50);
 const app = new Hono<Env>().get(
   "/books/:id/authors",
   etag(),
+  zValidator("param", z.object({ id: s.bookId }), (result, c) => {
+    if (!result.success) {
+      return c.json(result.error.flatten(), 400);
+    }
+  }),
   zValidator(
     "query",
     z
@@ -41,7 +46,7 @@ const app = new Hono<Env>().get(
     },
   ),
   async (c) => {
-    const { id } = c.req.param();
+    const { id } = c.req.valid("param");
     const { page, pageSize, sort, direction } = c.req.valid("query");
     const { url } = c.req;
 
