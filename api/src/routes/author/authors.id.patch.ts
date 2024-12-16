@@ -4,11 +4,17 @@ import { etag } from "hono/etag";
 import { z } from "zod";
 
 import { strongETag } from "../../lib/etag.ts";
+import * as s from "../../lib/schema.ts";
 import type { Env } from "../../types.ts";
 
 const app = new Hono<Env>().patch(
   "/authors/:id",
   etag(),
+  zValidator("param", z.object({ id: s.authorId }), (result, c) => {
+    if (!result.success) {
+      return c.json(result.error.flatten(), 400);
+    }
+  }),
   zValidator(
     "json",
     z
@@ -24,7 +30,7 @@ const app = new Hono<Env>().patch(
     },
   ),
   async (c) => {
-    const { id } = c.req.param();
+    const { id } = c.req.valid("param");
     const { name } = c.req.valid("json");
     const ifMatch = c.req.header("if-match");
 

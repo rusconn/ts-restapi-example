@@ -1,9 +1,9 @@
 import type { db } from "../db/client.ts";
-import type { AuthorSelect, BookInsert, BookSelect, BookUpdate } from "../db/models.ts";
+import type { BookInsert, BookUpdate } from "../db/models.ts";
 import { fmap } from "../lib/functor.ts";
 import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
-import { createdAt, ulidDate } from "../lib/ulid.ts";
+import { createdAt, uuidDate } from "../lib/uuid.ts";
 
 /** 列の順序を保証するために使う */
 const allColumns = ["id", "updatedAt", "title"] as const;
@@ -15,7 +15,7 @@ export class BookAPI {
     this.#db = client;
   }
 
-  get(id: BookSelect["id"]) {
+  get(id: s.BookId) {
     return this.#db
       .selectFrom("Book")
       .where("id", "=", id)
@@ -47,7 +47,7 @@ export class BookAPI {
   }
 
   getsByAuthorId(
-    id: AuthorSelect["id"],
+    id: s.AuthorId,
     {
       sortKey,
       direction,
@@ -81,7 +81,7 @@ export class BookAPI {
       .then(({ count }) => s.nonNegativeInt.parse(count));
   }
 
-  isExists(id: BookSelect["id"]) {
+  isExists(id: s.BookId) {
     return this.#db
       .selectFrom("Book")
       .where("id", "=", id)
@@ -91,7 +91,7 @@ export class BookAPI {
   }
 
   create(data: Omit<BookInsert, "id" | "updatedAt">) {
-    const { id, date: updatedAt } = ulidDate();
+    const { id, date: updatedAt } = uuidDate();
 
     return this.#db
       .insertInto("Book")
@@ -101,7 +101,7 @@ export class BookAPI {
       .then(fmap(createdAt));
   }
 
-  update(id: BookSelect["id"], data: Omit<BookUpdate, "updatedAt">) {
+  update(id: s.BookId, data: Omit<BookUpdate, "updatedAt">) {
     return this.#db
       .updateTable("Book")
       .where("id", "=", id)
@@ -111,7 +111,7 @@ export class BookAPI {
       .then(fmap(createdAt));
   }
 
-  delete(id: BookSelect["id"]) {
+  delete(id: s.BookId) {
     return this.#db //
       .deleteFrom("Book")
       .where("id", "=", id)

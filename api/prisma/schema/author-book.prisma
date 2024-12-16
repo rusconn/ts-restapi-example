@@ -1,6 +1,6 @@
 model AuthorBook {
-  authorId String @pg.Char(26)
-  bookId   String @pg.Char(26)
+  authorId String @pg.Uuid
+  bookId   String @pg.Uuid
   author   Author @relation(fields: authorId, references: id, onDelete: Cascade)
   book     Book   @relation(fields: bookId, references: id, onDelete: Cascade)
 

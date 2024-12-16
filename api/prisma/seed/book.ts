@@ -8,22 +8,22 @@ export const seed = async (tsx: Transaction<DB>) => {
 };
 
 export const aliceBook1 = {
-  id: "01HZGPKBNK64EZMF9GQQJC2J5K",
+  id: "0193cc6d-eb8c-738c-aad3-be8265cb9e8f",
   updatedAt: new Date(4),
   title: "alice book 1",
 };
 export const aliceBook2 = {
-  id: "01HZGPKBNKJ9X3C2HEH2AWFDP8",
+  id: "0193cc6e-029a-7419-80e0-4d8cc8f21c3b",
   updatedAt: new Date(1),
   title: "alice book 2",
 };
 export const bobBook1 = {
-  id: "01HZGPKBNK2T1KWWAHN4QMCDNW",
+  id: "0193cc6e-077c-7672-bd3e-1a8552828463",
   updatedAt: new Date(2),
   title: "bob book 1",
 };
 export const aliceBobBook1 = {
-  id: "01HZGPKBNKXV66F1DB1WJCN5T0",
+  id: "0193cc6e-0d3b-705c-a762-e99ee57a7dd1",
   updatedAt: new Date(5),
   title: "alice bob book 1",
 };

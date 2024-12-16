@@ -1,7 +1,14 @@
 -- CreateTable
+CREATE TABLE "AuthorBook" (
+    "authorId" UUID NOT NULL,
+    "bookId" UUID NOT NULL,
+
+    CONSTRAINT "AuthorBook_pkey" PRIMARY KEY ("authorId","bookId")
+);
+
+-- CreateTable
 CREATE TABLE "Author" (
-    "id" CHAR(26) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "id" UUID NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
 
@@ -9,17 +16,8 @@ CREATE TABLE "Author" (
 );
 
 -- CreateTable
-CREATE TABLE "AuthorBook" (
-    "authorId" CHAR(26) NOT NULL,
-    "bookId" CHAR(26) NOT NULL,
-
-    CONSTRAINT "AuthorBook_pkey" PRIMARY KEY ("authorId","bookId")
-);
-
--- CreateTable
 CREATE TABLE "Book" (
-    "id" CHAR(26) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "id" UUID NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "title" VARCHAR(255) NOT NULL,
 
@@ -27,19 +25,13 @@ CREATE TABLE "Book" (
 );
 
 -- CreateIndex
-CREATE INDEX "Author_createdAt_id_idx" ON "Author"("createdAt", "id");
+CREATE INDEX "AuthorBook_bookId_idx" ON "AuthorBook"("bookId");
 
 -- CreateIndex
 CREATE INDEX "Author_updatedAt_id_idx" ON "Author"("updatedAt", "id");
 
 -- CreateIndex
 CREATE INDEX "Author_name_id_idx" ON "Author"("name", "id");
-
--- CreateIndex
-CREATE INDEX "AuthorBook_bookId_idx" ON "AuthorBook"("bookId");
-
--- CreateIndex
-CREATE INDEX "Book_createdAt_id_idx" ON "Book"("createdAt", "id");
 
 -- CreateIndex
 CREATE INDEX "Book_updatedAt_id_idx" ON "Book"("updatedAt", "id");
@@ -52,3 +44,4 @@ ALTER TABLE "AuthorBook" ADD CONSTRAINT "AuthorBook_authorId_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "AuthorBook" ADD CONSTRAINT "AuthorBook_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+

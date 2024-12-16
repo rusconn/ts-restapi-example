@@ -1,5 +1,4 @@
 import type { db } from "../db/client.ts";
-import type { AuthorSelect, BookSelect } from "../db/models.ts";
 import * as s from "../lib/schema.ts";
 
 /** 列の順序を保証するために使う */
@@ -12,7 +11,7 @@ export class AuthorBookAPI {
     this.#db = client;
   }
 
-  countByBookId(id: BookSelect["id"]) {
+  countByBookId(id: s.BookId) {
     return this.#db
       .selectFrom("AuthorBook")
       .where("bookId", "=", id)
@@ -21,7 +20,7 @@ export class AuthorBookAPI {
       .then(({ count }) => s.nonNegativeInt.parse(count));
   }
 
-  countByAuthorId(id: AuthorSelect["id"]) {
+  countByAuthorId(id: s.AuthorId) {
     return this.#db
       .selectFrom("AuthorBook")
       .where("authorId", "=", id)
@@ -30,7 +29,7 @@ export class AuthorBookAPI {
       .then(({ count }) => s.nonNegativeInt.parse(count));
   }
 
-  isExists(authorId: AuthorSelect["id"], bookId: BookSelect["id"]) {
+  isExists(authorId: s.AuthorId, bookId: s.BookId) {
     return this.#db
       .selectFrom("AuthorBook")
       .where("authorId", "=", authorId)
@@ -40,7 +39,7 @@ export class AuthorBookAPI {
       .then(Boolean);
   }
 
-  create(authorId: AuthorSelect["id"], bookId: BookSelect["id"]) {
+  create(authorId: s.AuthorId, bookId: s.BookId) {
     return this.#db
       .insertInto("AuthorBook")
       .values({ authorId, bookId })
@@ -48,7 +47,7 @@ export class AuthorBookAPI {
       .executeTakeFirstOrThrow();
   }
 
-  delete(authorId: AuthorSelect["id"], bookId: BookSelect["id"]) {
+  delete(authorId: s.AuthorId, bookId: s.BookId) {
     return this.#db
       .deleteFrom("AuthorBook")
       .where("authorId", "=", authorId)
