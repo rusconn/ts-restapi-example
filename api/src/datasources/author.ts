@@ -5,9 +5,6 @@ import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
 import { createdAt, uuidDate } from "../lib/uuid.ts";
 
-/** 列の順序を保証するために使う */
-const allColumns = ["id", "updatedAt", "name"] as const;
-
 export class AuthorAPI {
   #db: typeof db;
 
@@ -19,7 +16,7 @@ export class AuthorAPI {
     return this.#db
       .selectFrom("Author")
       .where("id", "=", id)
-      .select(allColumns)
+      .selectAll()
       .executeTakeFirst()
       .then(fmap(createdAt));
   }
@@ -37,7 +34,7 @@ export class AuthorAPI {
   }) {
     return this.#db
       .selectFrom("Author")
-      .select(allColumns)
+      .selectAll()
       .orderBy(sortKey, direction)
       .orderBy("id", direction)
       .limit(pageSize)
@@ -64,7 +61,7 @@ export class AuthorAPI {
       .selectFrom("Author")
       .innerJoin("AuthorBook", "id", "authorId")
       .where("bookId", "=", id)
-      .select(allColumns)
+      .selectAll()
       .orderBy(sortKey, direction)
       .orderBy("id", direction)
       .limit(pageSize)
@@ -96,7 +93,7 @@ export class AuthorAPI {
     return this.#db
       .insertInto("Author")
       .values({ ...data, id, updatedAt })
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirstOrThrow()
       .then(fmap(createdAt));
   }
@@ -106,7 +103,7 @@ export class AuthorAPI {
       .updateTable("Author")
       .where("id", "=", id)
       .set({ ...data, updatedAt: new Date() })
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirst()
       .then(fmap(createdAt));
   }
