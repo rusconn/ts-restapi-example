@@ -5,9 +5,6 @@ import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
 import { createdAt, uuidDate } from "../lib/uuid.ts";
 
-/** 列の順序を保証するために使う */
-const allColumns = ["id", "updatedAt", "title"] as const;
-
 export class BookAPI {
   #db: typeof db;
 
@@ -19,7 +16,7 @@ export class BookAPI {
     return this.#db
       .selectFrom("Book")
       .where("id", "=", id)
-      .select(allColumns)
+      .selectAll()
       .executeTakeFirst()
       .then(fmap(createdAt));
   }
@@ -37,7 +34,7 @@ export class BookAPI {
   }) {
     return this.#db
       .selectFrom("Book")
-      .select(allColumns)
+      .selectAll()
       .orderBy(sortKey, direction)
       .orderBy("id", direction)
       .limit(pageSize)
@@ -64,7 +61,7 @@ export class BookAPI {
       .selectFrom("Book")
       .innerJoin("AuthorBook", "id", "bookId")
       .where("authorId", "=", id)
-      .select(allColumns)
+      .selectAll()
       .orderBy(sortKey, direction)
       .orderBy("id", direction)
       .limit(pageSize)
@@ -96,7 +93,7 @@ export class BookAPI {
     return this.#db
       .insertInto("Book")
       .values({ ...data, id, updatedAt })
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirstOrThrow()
       .then(fmap(createdAt));
   }
@@ -106,7 +103,7 @@ export class BookAPI {
       .updateTable("Book")
       .where("id", "=", id)
       .set({ ...data, updatedAt: new Date() })
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirst()
       .then(fmap(createdAt));
   }

@@ -1,9 +1,6 @@
 import type { db } from "../db/client.ts";
 import * as s from "../lib/schema.ts";
 
-/** 列の順序を保証するために使う */
-const allColumns = ["authorId", "bookId"] as const;
-
 export class AuthorBookAPI {
   #db: typeof db;
 
@@ -43,7 +40,7 @@ export class AuthorBookAPI {
     return this.#db
       .insertInto("AuthorBook")
       .values({ authorId, bookId })
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirstOrThrow();
   }
 
@@ -52,7 +49,7 @@ export class AuthorBookAPI {
       .deleteFrom("AuthorBook")
       .where("authorId", "=", authorId)
       .where("bookId", "=", bookId)
-      .returning(allColumns)
+      .returningAll()
       .executeTakeFirst();
   }
 }
