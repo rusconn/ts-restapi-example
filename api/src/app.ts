@@ -4,7 +4,7 @@ import { requestId } from "hono/request-id";
 import { db } from "./db/client.ts";
 import { notFound } from "./error-handlers/not-found.ts";
 import { onError } from "./error-handlers/on-error.ts";
-import { KB } from "./lib/si.ts";
+import { Ki } from "./lib/prefix.ts";
 import { api } from "./middlewares/api.ts";
 import { bodyLimit } from "./middlewares/body-limit.ts";
 import { logger } from "./middlewares/logger.ts";
@@ -18,7 +18,7 @@ import type { Env } from "./types.ts";
 
 const app = new Hono<Env>()
   // checkings
-  .use(bodyLimit(1 * KB))
+  .use(bodyLimit(1 * Ki))
   // contexts
   .use(start)
   .use(requestId())
