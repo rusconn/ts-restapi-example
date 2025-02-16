@@ -1,10 +1,9 @@
 import process from "node:process";
 
-import { hc } from "hono/client";
+import { hcWithType } from "@tre/api/src/hc.ts";
 
-import type { API } from "@tre/api/src/app.ts";
+export const client = hcWithType("http://localhost:3000");
 
-const client = hc<API>("http://localhost:3000");
 const response = await client.authors.$get({
   query: {
     page: "2",
