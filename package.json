@@ -3,7 +3,7 @@
   "license": "MIT",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@10.4.0",
   "engines": {
     "node": "^22.2.0"
   },
@@ -30,6 +30,7 @@
   "pnpm": {
     "overrides": {
       "micromatch@<4.0.8": ">=4.0.8"
-    }
+    },
+    "onlyBuiltDependencies": ["@biomejs/biome", "@prisma/engines", "esbuild", "prisma"]
   }
 }
