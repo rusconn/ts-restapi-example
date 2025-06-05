@@ -14,7 +14,8 @@
     "build": "pnpm -r --stream run build",
     "start": "pnpm -r --stream run start",
     "test": "pnpm -r --stream run test",
-    "check": "pnpm -r --stream run check"
+    "check": "pnpm -r --stream run check",
+    "checkgo": "pnpm -r --stream run checkgo"
   },
   "dependencies": {
     "hono": "^4.6.8"
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
     "@dotenvx/dotenvx": "^1.14.1",
+    "@typescript/native-preview": "7.0.0-dev.20250605.1",
     "prettier": "^3.3.2",
     "typescript": "^5.6.2",
     "vite": "^6.1.0",
