@@ -9,7 +9,8 @@
   "scripts": {
     "build": "vite build",
     "exec": "node --enable-source-maps dist/main.js",
-    "check": "tsc && biome check && biome format"
+    "check": "tsc && biome check && biome format",
+    "checkgo": "tsgo && biome check && biome format"
   },
   "dependencies": {},
   "devDependencies": {
