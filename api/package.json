@@ -7,6 +7,7 @@
     "node": "^22.2.0"
   },
   "prisma": {
+    "schema": "prisma/schema",
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
@@ -34,7 +35,7 @@
   "devDependencies": {
     "@types/pg": "^8.11.6",
     "pino-pretty": "^11.2.1",
-    "prisma": "^5.15.0",
+    "prisma": "^6.9.0",
     "prisma-kysely": "^1.8.0",
     "tsx": "^4.19.2"
   }
