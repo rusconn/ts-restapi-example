@@ -1,7 +1,7 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
-  "extends": ["../biome.jsonc"],
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "extends": "//",
   "files": {
-    "ignore": ["src/db/types.ts"]
+    "includes": ["**", "!**/src/db/types.ts"]
   }
 }

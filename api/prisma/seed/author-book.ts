@@ -1,6 +1,7 @@
 import type { Transaction } from "kysely";
 
 import type { DB } from "../../src/db/types.ts";
+
 import { alice, bob } from "./author.ts";
 import { aliceBobBook1, aliceBook1, aliceBook2, bobBook1 } from "./book.ts";
 

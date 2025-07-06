@@ -18,8 +18,8 @@
     "start": "dotenvx run -f .env -f .env.production --overload -- node --enable-source-maps dist/main.js",
     "test": "dotenvx run -f .env -f .env.test --overload -- pnpm run --sequential /test:/",
     "test:ut": "vitest --dir src",
-    "check": "tsc && biome check && biome format && prettier --cache --check './**/*.{yml,yaml,md}'",
-    "checkgo": "tsgo && biome check && biome format && prettier --cache --check './**/*.{yml,yaml,md}'",
+    "check": "tsc && biome check && prettier --cache --check './**/*.{yml,yaml,md}'",
+    "checkgo": "tsgo && biome check && prettier --cache --check './**/*.{yml,yaml,md}'",
     "studio": "prisma studio",
     "migrate": "prisma migrate"
   },
