@@ -1,5 +1,5 @@
-import type { AuthorBookAPI } from "./datasources/author-book.ts";
 import type { AuthorAPI } from "./datasources/author.ts";
+import type { AuthorBookAPI } from "./datasources/author-book.ts";
 import type { BookAPI } from "./datasources/book.ts";
 import type { HealthAPI } from "./datasources/health.ts";
 import type { logger } from "./logger.ts";
