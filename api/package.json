@@ -4,16 +4,16 @@
   "type": "module",
   "packageManager": "pnpm@10.4.0",
   "engines": {
-    "node": "^22.2.0"
+    "node": "^23.9.0"
   },
   "prisma": {
     "schema": "prisma/schema",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "node prisma/seed.ts"
   },
   "scripts": {
     "up": "docker compose -p ts-restspi-example-api up -d",
     "down": "docker compose -p ts-restspi-example-api down",
-    "dev": "dotenvx run -- tsx watch src/main.ts",
+    "dev": "dotenvx run -- node --watch src/main.ts",
     "build": "dotenvx run -- vite build",
     "start": "dotenvx run -f .env -f .env.production --overload -- node --enable-source-maps dist/main.js",
     "test": "dotenvx run -f .env -f .env.test --overload -- pnpm run --sequential /test:/",
@@ -36,7 +36,6 @@
     "@types/pg": "^8.11.6",
     "pino-pretty": "^11.2.1",
     "prisma": "^6.9.0",
-    "prisma-kysely": "^1.8.0",
-    "tsx": "^4.19.2"
+    "prisma-kysely": "^1.8.0"
   }
 }
