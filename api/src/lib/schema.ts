@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export type PositiveInt = z.infer<typeof positiveInt>;
 export type NonNegativeInt = z.infer<typeof nonNegativeInt>;
@@ -10,21 +10,18 @@ const int = z.coerce //
   .int()
   .brand("Int");
 
-export const nonNegativeInt = int //
-  .unwrap()
-  .nonnegative()
+export const nonNegativeInt = int
+  .nonnegative() //
   .brand("NonNegativeInt");
 
-export const positiveInt = int //
-  .unwrap()
-  .positive()
+export const positiveInt = int
+  .positive() //
   .brand("PositiveInt");
 
-const uuid = z //
-  .string()
-  .uuid()
-  .brand("Uuid");
+export const authorId = z
+  .uuid() //
+  .brand("AuthorId");
 
-export const authorId = uuid.brand("AuthorId");
-
-export const bookId = uuid.brand("BookId");
+export const bookId = z
+  .uuid() //
+  .brand("BookId");

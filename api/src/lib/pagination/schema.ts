@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 import * as s from "../schema.ts";
 
@@ -7,20 +7,18 @@ export type PageSize = NonNullable<z.infer<ReturnType<typeof pageSize>>>;
 
 export const page = (max: s.PositiveInt) =>
   s.positiveInt //
-    .unwrap()
     .max(max)
-    .brand("Page")
     .optional()
-    .default(1);
+    .default(1 as s.PositiveInt)
+    .brand("Page");
 
 export const pageSize = (min: s.PositiveInt, max: s.PositiveInt) =>
   s.positiveInt //
-    .unwrap()
     .min(min)
     .max(max)
-    .brand("PageSize")
     .optional()
-    .default(30);
+    .default(30 as s.PositiveInt)
+    .brand("PageSize");
 
 export const timestamp = z //
   .enum(["createdAt", "updatedAt"]);

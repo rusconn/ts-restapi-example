@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { etag } from "hono/etag";
-import { z } from "zod";
+import * as z from "zod";
 
 import { strongETag } from "../../lib/etag.ts";
 import * as s from "../../lib/schema.ts";
@@ -12,7 +12,7 @@ const app = new Hono<Env>().patch(
   etag(),
   zValidator("param", z.object({ id: s.bookId }), (result, c) => {
     if (!result.success) {
-      return c.json(result.error.flatten(), 400);
+      return c.json(z.treeifyError(result.error), 400);
     }
   }),
   zValidator(
@@ -25,7 +25,7 @@ const app = new Hono<Env>().patch(
       .partial(),
     (result, c) => {
       if (!result.success) {
-        return c.json(result.error.flatten(), 400);
+        return c.json(z.treeifyError(result.error), 400);
       }
     },
   ),

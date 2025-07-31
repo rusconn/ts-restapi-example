@@ -1,6 +1,6 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { z } from "zod";
+import * as z from "zod";
 
 import { strongETag } from "../../lib/etag.ts";
 import * as s from "../../lib/schema.ts";
@@ -10,7 +10,7 @@ const app = new Hono<Env>().delete(
   "/authors/:id",
   zValidator("param", z.object({ id: s.authorId }), (result, c) => {
     if (!result.success) {
-      return c.json(result.error.flatten(), 400);
+      return c.json(z.treeifyError(result.error), 400);
     }
   }),
   async (c) => {

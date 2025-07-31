@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { etag } from "hono/etag";
-import { z } from "zod";
+import * as z from "zod";
 
 import * as s from "../../lib/schema.ts";
 import type { Env } from "../../types.ts";
@@ -11,7 +11,7 @@ const app = new Hono<Env>().get(
   etag(),
   zValidator("param", z.object({ id: s.bookId }), (result, c) => {
     if (!result.success) {
-      return c.json(result.error.flatten(), 400);
+      return c.json(z.treeifyError(result.error), 400);
     }
   }),
   async (c) => {

@@ -1,6 +1,6 @@
 import process from "node:process";
 
-import { z } from "zod";
+import * as z from "zod";
 
 const envSchema = z
   .object({

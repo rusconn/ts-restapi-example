@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { etag } from "hono/etag";
-import { z } from "zod";
+import * as z from "zod";
 
 import { linkEntries } from "../../lib/pagination/header.ts";
 import * as p from "../../lib/pagination/schema.ts";
@@ -36,7 +36,7 @@ const app = new Hono<Env>().get(
       }),
     (result, c) => {
       if (!result.success) {
-        return c.json(result.error.flatten(), 400);
+        return c.json(z.treeifyError(result.error), 400);
       }
     },
   ),
