@@ -6,10 +6,6 @@
   "engines": {
     "node": "^23.9.0"
   },
-  "prisma": {
-    "schema": "prisma/schema",
-    "seed": "node prisma/seed.ts"
-  },
   "scripts": {
     "up": "docker compose -p ts-restspi-example-api up -d",
     "down": "docker compose -p ts-restspi-example-api down",
@@ -35,7 +31,7 @@
   "devDependencies": {
     "@types/pg": "^8.11.6",
     "pino-pretty": "^11.2.1",
-    "prisma": "^6.9.0",
+    "prisma": "^6.15.0",
     "prisma-kysely": "^1.8.0"
   }
 }
