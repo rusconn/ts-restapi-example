@@ -32,6 +32,6 @@
     "@types/pg": "^8.11.6",
     "pino-pretty": "^11.2.1",
     "prisma": "^6.15.0",
-    "prisma-kysely": "^1.8.0"
+    "prisma-kysely": "^2.2.0"
   }
 }

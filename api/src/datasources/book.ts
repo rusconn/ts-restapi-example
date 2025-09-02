@@ -1,5 +1,5 @@
 import type { db } from "../db/client.ts";
-import type { BookInsert, BookUpdate } from "../db/models.ts";
+import type { BookUpdate, NewBook } from "../db/types.ts";
 import { fmap } from "../lib/functor.ts";
 import type { Page, PageSize } from "../lib/pagination/schema.ts";
 import * as s from "../lib/schema.ts";
@@ -87,7 +87,7 @@ export class BookAPI {
       .then(Boolean);
   }
 
-  create(data: Omit<BookInsert, "id" | "updatedAt">) {
+  create(data: Omit<NewBook, "id" | "updatedAt">) {
     const { id, date: updatedAt } = uuidDate();
 
     return this.#db
