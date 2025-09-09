@@ -55,8 +55,8 @@ importers:
         specifier: ^9.2.0
         version: 9.2.0
       uuid:
-        specifier: ^11.0.3
-        version: 11.0.3
+        specifier: ^13.0.0
+        version: 13.0.0
       zod:
         specifier: ^4.0.14
         version: 4.0.14
@@ -1351,8 +1351,8 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  uuid@11.0.3:
-    resolution: {integrity: sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==}
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
     hasBin: true
 
   vite-node@3.2.4:
@@ -2550,7 +2550,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  uuid@11.0.3: {}
+  uuid@13.0.0: {}
 
   vite-node@3.2.4(jiti@2.5.1)(tsx@4.19.2):
     dependencies:
