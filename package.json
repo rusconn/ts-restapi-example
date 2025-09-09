@@ -26,8 +26,8 @@
     "@typescript/native-preview": "7.0.0-dev.20250605.1",
     "prettier": "^3.3.2",
     "typescript": "^5.6.2",
-    "vite": "^6.1.0",
-    "vitest": "^3.0.5"
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "overrides": {
