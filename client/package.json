@@ -2,7 +2,7 @@
   "name": "@tre/client",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.4.0",
+  "packageManager": "pnpm@10.16.1",
   "engines": {
     "node": "^23.9.0"
   },
