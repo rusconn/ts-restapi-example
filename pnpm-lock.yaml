@@ -33,14 +33,14 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(jiti@2.5.1)(tsx@4.19.2)
 
-  api:
+  apps/api:
     dependencies:
       '@hono/node-server':
         specifier: ^1.11.3
         version: 1.11.3
       '@hono/zod-validator':
         specifier: ^0.7.2
-        version: 0.7.2(hono@4.6.8)(zod@4.0.14)
+        version: 0.7.2(hono@4.6.8)(zod@4.1.5)
       hono:
         specifier: ^4.6.8
         version: 4.6.8
@@ -58,7 +58,7 @@ importers:
         version: 13.0.0
       zod:
         specifier: ^4.0.14
-        version: 4.0.14
+        version: 4.1.5
     devDependencies:
       '@types/pg':
         specifier: ^8.11.6
@@ -73,7 +73,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(prisma@6.15.0(typescript@5.9.2))
 
-  client:
+  apps/client:
     devDependencies:
       '@tre/api':
         specifier: workspace:*
@@ -1266,9 +1266,6 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  sonic-boom@4.0.1:
-    resolution: {integrity: sha512-hTSD/6JMLyT4r9zeof6UtuBDpjJ9sO08/nmS5djaA9eozT9oOlNdpXSnzcgj4FTqpk3nkLrs61l4gip9r1HCrQ==}
-
   sonic-boom@4.2.0:
     resolution: {integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==}
 
@@ -1448,9 +1445,6 @@ packages:
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
-
-  zod@4.0.14:
-    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
 
   zod@4.1.5:
     resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
@@ -1671,10 +1665,10 @@ snapshots:
 
   '@hono/node-server@1.11.3': {}
 
-  '@hono/zod-validator@0.7.2(hono@4.6.8)(zod@4.0.14)':
+  '@hono/zod-validator@0.7.2(hono@4.6.8)(zod@4.1.5)':
     dependencies:
       hono: 4.6.8
-      zod: 4.0.14
+      zod: 4.1.5
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
@@ -2340,7 +2334,7 @@ snapshots:
       quick-format-unescaped: 4.0.4
       real-require: 0.2.0
       safe-stable-stringify: 2.4.3
-      sonic-boom: 4.0.1
+      sonic-boom: 4.2.0
       thread-stream: 3.1.0
 
   pkg-types@2.3.0:
@@ -2483,10 +2477,6 @@ snapshots:
   signal-exit@3.0.7: {}
 
   sisteransi@1.0.5: {}
-
-  sonic-boom@4.0.1:
-    dependencies:
-      atomic-sleep: 1.0.0
 
   sonic-boom@4.2.0:
     dependencies:
@@ -2640,7 +2630,5 @@ snapshots:
   wrappy@1.0.2: {}
 
   xtend@4.0.2: {}
-
-  zod@4.0.14: {}
 
   zod@4.1.5: {}
