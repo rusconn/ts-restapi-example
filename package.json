@@ -17,9 +17,6 @@
     "check": "pnpm -r --stream run check",
     "checkgo": "pnpm -r --stream run checkgo"
   },
-  "dependencies": {
-    "hono": "^4.6.8"
-  },
   "devDependencies": {
     "@biomejs/biome": "^2.2.2",
     "@dotenvx/dotenvx": "^1.14.1",
