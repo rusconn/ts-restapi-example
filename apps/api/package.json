@@ -16,8 +16,10 @@
     "test:ut": "vitest --dir src",
     "check": "tsc && biome check && prettier --cache --check './**/*.{yml,yaml,md}'",
     "checkgo": "tsgo && biome check && prettier --cache --check './**/*.{yml,yaml,md}'",
-    "studio": "prisma studio",
-    "migrate": "prisma migrate"
+    "migrate": "dotenvx run -- prisma migrate",
+    "generate": "dotenvx run -- prisma generate",
+    "seed": "dotenvx run -- prisma db seed",
+    "studio": "dotenvx run -- prisma studio"
   },
   "dependencies": {
     "@hono/node-server": "^1.11.3",
@@ -32,7 +34,7 @@
   "devDependencies": {
     "@types/pg": "^8.11.6",
     "pino-pretty": "^13.1.1",
-    "prisma": "^6.15.0",
+    "prisma": "^7.0.0",
     "prisma-kysely": "^2.2.0"
   }
 }
