@@ -12,8 +12,8 @@
     "check": "tsc && biome check",
     "checkgo": "tsgo && biome check"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@tre/api": "workspace:*"
-  }
+  },
+  "devDependencies": {}
 }
