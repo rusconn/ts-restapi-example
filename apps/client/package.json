@@ -9,8 +9,7 @@
   "scripts": {
     "build": "vite build",
     "exec": "node --enable-source-maps dist/main.js",
-    "check": "tsc && biome check",
-    "checkgo": "tsgo && biome check"
+    "check": "tsgo && biome check"
   },
   "dependencies": {
     "@tre/api": "workspace:*"

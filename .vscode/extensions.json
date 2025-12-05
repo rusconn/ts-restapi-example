@@ -5,8 +5,7 @@
     "irongeek.vscode-env",
     "biomejs.biome",
     "esbenp.prettier-vscode",
-    "prisma.prisma"
-    // しばしばクラッシュするためまだ利用しない
-    // "typescriptteam.native-preview"
+    "prisma.prisma",
+    "typescriptteam.native-preview"
   ]
 }
